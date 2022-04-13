@@ -1,17 +1,13 @@
-type ToDoType = {
-  id: number;
-  title: string;
-};
+import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { todoListState } from '../../atom';
 
-interface ListProps {
-  tasks: ToDoType[];
-}
-
-function List({ tasks }: ListProps) {
+function List() {
+  const todoList = useRecoilValue(todoListState);
   return (
     <ul>
-      {tasks.map((task) => (
-        <li key={task.id}>{task.title}</li>
+      {todoList.map((todo) => (
+        <li key={todo.id}>{todo.text}</li>
       ))}
     </ul>
   );

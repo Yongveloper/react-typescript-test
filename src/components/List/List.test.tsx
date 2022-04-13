@@ -1,15 +1,15 @@
 import { render } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
-import App from './App';
+import List from './List';
 
-describe('App', () => {
-  it('renders tasks', () => {
+describe('List Component', () => {
+  it('renders Todos', () => {
     const { container } = render(
       <RecoilRoot>
-        <App />
+        <List />
       </RecoilRoot>
     );
 
-    expect(container).toHaveTextContent('To-DO');
+    expect(container).toHaveTextContent('임시 투두');
   });
 });
