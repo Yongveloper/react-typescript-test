@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { todoListState } from '../../atom';
+import { todoListState } from '../atom';
 
 function List() {
   const todoList = useRecoilValue(todoListState);
