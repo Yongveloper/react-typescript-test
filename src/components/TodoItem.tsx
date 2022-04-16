@@ -1,10 +1,5 @@
-import React, { useCallback } from 'react';
-
-export interface TodoType {
-  id: number;
-  text: string;
-  done: boolean;
-}
+import { useCallback } from 'react';
+import { TodoType } from './TodoList';
 
 interface ITodoItemProps {
   todo: TodoType;
