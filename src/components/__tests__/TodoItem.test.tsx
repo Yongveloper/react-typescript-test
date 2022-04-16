@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import TodoItem from './TodoItem';
+import TodoItem from '../TodoItem';
 
 describe('<TodoItem />', () => {
   const sampleTodo = {
