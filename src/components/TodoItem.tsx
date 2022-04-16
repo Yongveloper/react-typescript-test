@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { TodoType } from './TodoList';
 
 interface ITodoItemProps {
@@ -23,4 +23,4 @@ function TodoItem({ todo, onToggle, onRemove }: ITodoItemProps) {
   );
 }
 
-export default TodoItem;
+export default memo(TodoItem);
