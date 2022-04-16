@@ -1,19 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 
-interface ITodoItemCreatorProps {
-  onInsert: (text: string) => void;
+interface ITodoFormProps {
+  onInsert: (value: string) => void;
 }
 
-function TodoItemCreator({ onInsert }: ITodoItemCreatorProps) {
+function TodoForm({ onInsert }: ITodoFormProps) {
   const [inputValue, setInputValue] = useState('');
 
-  const onChange = useCallback(
-    ({ currentTarget: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(value);
-    },
-    []
-  );
+  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.currentTarget.value);
+  }, []);
 
   const onSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
@@ -27,15 +23,14 @@ function TodoItemCreator({ onInsert }: ITodoItemCreatorProps) {
   return (
     <form onSubmit={onSubmit}>
       <input
-        data-testid="todo_input"
         type="text"
+        placeholder="오늘의 할 일"
         value={inputValue}
-        placeholder="오늘 할 일"
         onChange={onChange}
       />
-      <button>추가</button>
+      <button type="submit">등록</button>
     </form>
   );
 }
 
-export default TodoItemCreator;
+export default TodoForm;
