@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
+import TodoFilters from './TodoFilters';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 
@@ -16,6 +17,21 @@ function TodoApp() {
     },
   ]);
   const nextId = useRef(3);
+
+  const options = [
+    { name: 'Show All', key: 'all' },
+    { name: 'Show Completed', key: 'completed' },
+    { name: 'Show Uncompleted', key: 'uncompleted' },
+  ];
+
+  const [selected, setSelected] = useState(options[0].name);
+
+  const handleSelect = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelected(event.currentTarget.value);
+    },
+    []
+  );
 
   const onInsert = useCallback((text) => {
     setTodos((todos) => [...todos, { id: nextId.current, text, done: false }]);
@@ -37,6 +53,7 @@ function TodoApp() {
   return (
     <>
       <TodoForm onInsert={onInsert} />
+      <TodoFilters selected={selected} onChange={handleSelect} />
       <TodoList todos={todos} onToggle={onToggle} onRemove={onRemove} />
     </>
   );
