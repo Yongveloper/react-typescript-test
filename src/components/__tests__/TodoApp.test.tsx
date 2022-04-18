@@ -59,4 +59,63 @@ describe('<TodoApp />', () => {
 
     expect(todoText).not.toBeInTheDocument();
   });
+
+  describe('changes select options', () => {
+    const options = ['Show All', 'Show Completed', 'Show Uncompleted'];
+
+    const setup = () => {
+      render(<TodoApp />);
+      const select = screen.getByRole('combobox') as HTMLSelectElement;
+      const firstTodo = screen.getByText('TDD 배우기');
+      const secondTodo = screen.getByText('react-testing-library 사용하기');
+
+      return {
+        select,
+        firstTodo,
+        secondTodo,
+      };
+    };
+
+    it('select "Show Completed" to show only the completed todo', () => {
+      const { select, firstTodo, secondTodo } = setup();
+
+      fireEvent.change(select, {
+        target: {
+          value: options[1],
+        },
+      });
+
+      expect(select.value).toBe(options[1]);
+      expect(firstTodo).toBeInTheDocument();
+      expect(secondTodo).not.toBeInTheDocument();
+    });
+
+    it('select "Show Uncompleted" to show only the completed todo', () => {
+      const { select, firstTodo, secondTodo } = setup();
+
+      fireEvent.change(select, {
+        target: {
+          value: options[2],
+        },
+      });
+
+      expect(select.value).toBe(options[2]);
+      expect(firstTodo).not.toBeInTheDocument();
+      expect(secondTodo).toBeInTheDocument();
+    });
+
+    it('select "Show All" to show All todo', () => {
+      const { select, firstTodo, secondTodo } = setup();
+
+      fireEvent.change(select, {
+        target: {
+          value: options[0],
+        },
+      });
+
+      expect(select.value).toBe(options[0]);
+      expect(firstTodo).toBeInTheDocument();
+      expect(secondTodo).toBeInTheDocument();
+    });
+  });
 });

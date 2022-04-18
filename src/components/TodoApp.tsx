@@ -1,4 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { filterOptions } from '../ultils';
 import TodoFilters from './TodoFilters';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
@@ -13,18 +14,14 @@ function TodoApp() {
     {
       id: 2,
       text: 'react-testing-library 사용하기',
-      done: true,
+      done: false,
     },
   ]);
   const nextId = useRef(3);
 
-  const options = [
-    { name: 'Show All', key: 'all' },
-    { name: 'Show Completed', key: 'completed' },
-    { name: 'Show Uncompleted', key: 'uncompleted' },
-  ];
+  const [filtedTodos, setFilterdTodos] = useState(todos);
 
-  const [selected, setSelected] = useState(options[0].name);
+  const [selected, setSelected] = useState(filterOptions[0].name);
 
   const handleSelect = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,11 +47,29 @@ function TodoApp() {
     setTodos((todos) => todos.filter((todo) => todo.id !== id));
   }, []);
 
+  const handleFilterTodo = () => {
+    switch (selected) {
+      case filterOptions[0].name:
+        setFilterdTodos(todos);
+        break;
+      case filterOptions[1].name:
+        setFilterdTodos(todos.filter((todo) => todo.done));
+        break;
+      case filterOptions[2].name:
+        setFilterdTodos(todos.filter((todo) => !todo.done));
+        break;
+    }
+  };
+
+  useEffect(() => {
+    handleFilterTodo();
+  }, [todos, selected]);
+
   return (
     <>
       <TodoForm onInsert={onInsert} />
       <TodoFilters selected={selected} onChange={handleSelect} />
-      <TodoList todos={todos} onToggle={onToggle} onRemove={onRemove} />
+      <TodoList todos={filtedTodos} onToggle={onToggle} onRemove={onRemove} />
     </>
   );
 }
